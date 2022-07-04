@@ -56,9 +56,8 @@ class UpdateAccountForm(FlaskForm):
 
 
 class RequestResetForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email:', validators=[DataRequired(), Email()])
     submit = SubmitField('Изменить пароль')
-
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
