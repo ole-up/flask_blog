@@ -4,7 +4,9 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin
 
+
 from flask_blog import db, login_manager
+
 
 
 @login_manager.user_loader
@@ -19,6 +21,11 @@ class User(db.Model, UserMixin):
     avatar = db.Column(db.String(20), nullable=True, default='user_default.png')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
+    admin = db.Column(db.Boolean(), default=False)
+
+    @property
+    def is_admin(self):
+        return self.admin
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)

@@ -7,3 +7,4 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = "oleg-741@yandex.ru"
     MAIL_PASSWORD = ""
+    FLASK_ADMIN_SWATCH = 'cerulean'

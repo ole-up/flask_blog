@@ -1,6 +1,10 @@
 from flask import render_template, Blueprint, request
 
-from flask_blog.models import User, Post
+from flask_login import login_required
+
+from flask_blog.models import Post
+from flask_blog.users.utils import admin_login_required
+
 
 main = Blueprint('main', __name__)
 

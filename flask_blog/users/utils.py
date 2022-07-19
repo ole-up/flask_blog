@@ -1,10 +1,12 @@
 import os
+from functools import wraps
 from secrets import token_hex
 
 from PIL import Image
-from flask import current_app, url_for
+from flask import current_app, url_for, abort
 from flask_mail import Message
 from flask_blog import mail
+from flask_login import current_user
 
 
 def save_picture(form_picture):
@@ -26,3 +28,11 @@ def send_reset_email(user):
                 {url_for('users.reset_token', token=token, _external=True)}. 
                 Если вы не делали этот запрос тогда просто проигнорируйте это письмо и никаких изменений'''
     mail.send(msg)
+
+def admin_login_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if not current_user.is_admin:
+            return abort(403)
+        return func(*args, **kwargs)
+    return decorated_view

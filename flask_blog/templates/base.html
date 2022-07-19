@@ -38,8 +38,8 @@
     <!-- Template Main CSS Files -->
     <link href="{{ url_for('static', filename='css/variables.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-{%  block css %}
-{% endblock %}
+    {% block css %}
+    {% endblock %}
 
     <!-- =======================================================
     * Template Name: ZenBlog - v1.0.0
@@ -79,18 +79,23 @@
                 <li><a href="/about">О нас</a></li>
                 <li><a href="/contact">Контакты</a></li>
                 {% if current_user.is_authenticated %}
-                <li class="dropdown"><a href="{{ url_for('users.account') }}"><span></span> Привет, {{ current_user.username }}!<i
-                        class="bi bi-chevron-down dropdown-indicator"></i></a>
-                <ul>
-                        <li><a href="{{ url_for('users.account') }}">Личный кабинет</a></li>
-                        <li><a href="{{ url_for('users.user_posts', username=current_user.username) }}">Мои статьи</a></li>
-                        <li><a href="{{ url_for('users.logout') }}">Выйти</a></li>
-                </ul>
-                </li>
+                    <li class="dropdown"><a href="{{ url_for('users.account') }}"><span></span>
+                        Привет, {{ current_user.username }}!<i
+                                class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            {% if current_user.is_admin %}
+                                <li><a href="/admin">Административная панель</a></li>
+                            {% endif %}
+                            <li><a href="{{ url_for('users.account') }}">Личный кабинет</a></li>
+                            <li><a href="{{ url_for('users.user_posts', username=current_user.username) }}">Мои
+                                статьи</a></li>
+                            <li><a href="{{ url_for('users.logout') }}">Выйти</a></li>
+                        </ul>
+                    </li>
 
-            {% else %}
-                <li><a href="{{ url_for('users.login') }}"><span class="bi-person-circle"> </span> Войти</a></li>
-            {% endif %}
+                {% else %}
+                    <li><a href="{{ url_for('users.login') }}"><span class="bi-person-circle"> </span> Войти</a></li>
+                {% endif %}
             </ul>
         </nav><!-- .navbar -->
 
@@ -99,7 +104,7 @@
             <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
             <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
 
-        </div>
+    </div>
 
     </div>
 
